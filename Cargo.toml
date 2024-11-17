@@ -1,0 +1,19 @@
+[package]
+name = "hello_world"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "hello_world"
+path = "src/main.rs"
+
+[dependencies]
+actix-web = "4.9.0"
+serde = { version = "1.0.215", features = ["derive"] }
+tokio = { version = "1.4.1", features = ["full"] }
+
+[dev-dependencies]
+reqwest = "0.12.9"
