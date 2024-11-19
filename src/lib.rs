@@ -1,28 +1,8 @@
-use actix_web::{web, App, HttpResponse, HttpServer};
-use actix_web::dev::Server;
-use std::net::TcpListener;
+// 模块声明部分
+// 使用 pub mod 声明了三个公共模块
+pub mod configuration;
+pub mod routes;
+pub mod startup;
 
-async fn health_check() -> HttpResponse {
-    HttpResponse::Ok().finish()
-}
-
-#[derive(serde::Deserialize)]
-struct FormData {
-    email: String,
-    name: String,
-}
-
-async fn subscribe(_form: web::Form<FormData>) -> HttpResponse {
-    HttpResponse::Ok().finish()
-}
-
-pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
-    let server = HttpServer::new(|| {
-        App::new()
-            .route("/health_check", web::get().to(health_check))
-            .route("/subscriptions", web::post().to(subscribe))
-    }).listen(listener)?
-    .run();
-        
-    Ok(server)
-}
+// 使用 pub use 将 startup 模块中的 run 函数重导出到当前模块的根级别
+pub use startup::run;

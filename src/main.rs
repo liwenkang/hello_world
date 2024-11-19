@@ -1,7 +1,11 @@
 use hello_world::run;
+use hello_world::configuration::get_configuration;
 use std::net::TcpListener;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    run(TcpListener::bind("127.0.0.1:0")?)?.await
+    let configuration = get_configuration().expect("Failed to read configuration.");
+    let address = format!("127.0.0.1:{}", configuration.application_port);
+    let listener = TcpListener::bind(address)?;
+    run(listener)?.await
 }
